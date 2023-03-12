@@ -326,6 +326,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * a custom {@link ConfigurableEnvironment} implementation.
 	 */
 	protected ConfigurableEnvironment createEnvironment() {
+		// 创建标准环境
 		return new StandardEnvironment();
 	}
 
@@ -515,10 +516,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
-			// Prepare this context for refreshing.
+			// Prepare this context for refreshing. 前期准备工作 设置环境变量、设置监听器和事件集合
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			// 创建容器对象 DefaultListableBeanFactory
+			// 加载配置文件的属性值到BeanFactory ；BeanDefinition对象-->DefaultListableBeanFactory
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
@@ -634,7 +637,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
+		// 刷新BeanFactory 并创建并加载Bean到 BeanFactory-->DefaultListableBeanFactory
 		refreshBeanFactory();
+		// 获取 DefaultListableBeanFactory
 		return getBeanFactory();
 	}
 
